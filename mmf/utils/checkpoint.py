@@ -1,5 +1,6 @@
 # Copyright (c) Facebook, Inc. and its affiliates.
 
+import contextlib
 import glob
 import importlib
 import logging
@@ -160,7 +161,8 @@ class Checkpoint:
         if not PathManager.exists(self.models_foldername):
             PathManager.mkdirs(self.models_foldername)
 
-        self.save_config()
+        if is_master():
+            self.save_config()
 
         self.repo_path = updir(os.path.abspath(__file__), n=3)
         self.git_repo = None
@@ -462,7 +464,7 @@ class Checkpoint:
         }
 
     def save_func(self, *args):
-        return xm.save(*args) if is_xla() else torch.save(*args)
+        return save_xla_ckpt(*args) if is_xla() else torch.save(*args)
 
     def save(self, update, iteration=None, update_best=False):
         # Only save in main process
@@ -527,22 +529,23 @@ class Checkpoint:
             git_metadata_dict = self._get_vcs_fields()
             ckpt.update(git_metadata_dict)
 
-        with PathManager.open(ckpt_filepath, "wb") as f:
+        with open_if_master(ckpt_filepath, "wb") as f:
             self.save_func(ckpt, f)
 
         if update_best:
             logger.info("Saving best checkpoint")
-            with PathManager.open(best_ckpt_filepath, "wb") as f:
+            with open_if_master(best_ckpt_filepath, "wb") as f:
                 self.save_func(ckpt, f)
 
         # Save current always
 
         logger.info("Saving current checkpoint")
-        with PathManager.open(current_ckpt_filepath, "wb") as f:
+        with open_if_master(current_ckpt_filepath, "wb") as f:
             self.save_func(ckpt, f)
 
         # Remove old checkpoints if max_to_keep is set
-        if self.max_to_keep > 0:
+        # In XLA, only delete checkpoint files in main process
+        if self.max_to_keep > 0 and is_master():
             if len(self.saved_iterations) == self.max_to_keep:
                 self.remove(self.saved_iterations.pop(0))
             self.saved_iterations.append(update)
@@ -564,5 +567,39 @@ class Checkpoint:
 
     def finalize(self):
         if is_master() or is_xla():
-            with PathManager.open(self.pth_filepath, "wb") as f:
+            with open_if_master(self.pth_filepath, "wb") as f:
                 self.save_func(self.trainer.model.state_dict(), f)
+
+
+def save_xla_ckpt(ckpt, file_or_path):
+    """
+    Similar to xm.save, but only try to convert "model" and "optimizer" in an MMF
+    checkpoint to CPU, since they hold PyTorch tensors. Other items like lr_scheduler
+    often cannot be saved with xm.save due to its errors in handling mappingproxy.
+
+    Only save on the global master process (which is different from the default behavior
+    of xm.save that saves a checkpoint on each node).
+    """
+    should_write_data = is_master()
+
+    is_full_ckpt = isinstance(ckpt, dict) and "model" in ckpt and "optimizer" in ckpt
+    if is_full_ckpt:
+        ckpt["model"] = xm._maybe_convert_to_cpu(
+            ckpt["model"], convert=should_write_data
+        )
+        ckpt["optimizer"] = xm._maybe_convert_to_cpu(
+            ckpt["optimizer"], convert=should_write_data
+        )
+    else:
+        ckpt = xm._maybe_convert_to_cpu(ckpt, convert=should_write_data)
+
+    if should_write_data:
+        torch.save(ckpt, file_or_path)
+    xm.rendezvous("mmf.utils.checkpoint.save_xla_ckpt")
+
+
+def open_if_master(path, mode):
+    if is_master():
+        return PathManager.open(path, mode)
+    else:
+        return contextlib.nullcontext()
