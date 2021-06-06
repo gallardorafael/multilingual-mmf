@@ -1,8 +1,8 @@
-# Towards Language-agnostic Architectures for Image Captioning with Reading Comprehension
+# Multilingual MMF
 
 
 ## Instructions
-### M4C Captioner (with GloVe vectors):
+### Multilingual M4C Captioner:
 Train on TextCaps dataset:
 
 ``
