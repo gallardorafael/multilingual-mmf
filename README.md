@@ -11,7 +11,8 @@ MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
     config=projects/ml_m4c_captioner/experiments/en_m4c_captioner/textcaps/defaults.yaml \
     env.save_dir=./projects/ml_m4c_captioner/pretrained/en_m4c_captioner/defaults \
     run_type=train_val \
-    training.num_workers=0
+    training.num_workers=0 \
+    training.batch_size=32
 ``
 
 ### M4C Captioner (with FastText vectors):
@@ -58,7 +59,9 @@ mmf_predict datasets=textcaps \
     config=projects/m4c_captioner/configs/m4c_captioner/textcaps/defaults.yaml \
     env.save_dir=./save/m4c_captioner/defaults \
     run_type=val \
-    checkpoint.resume_zoo=m4c_captioner.textcaps.defaults
+    checkpoint.resume_zoo=m4c_captioner.textcaps.defaults \
+    training.batch_size=8 \
+    training.num_workers=0
 ``
 
 Generate prediction JSON files for the **TextCaps test set** (zoo model):
