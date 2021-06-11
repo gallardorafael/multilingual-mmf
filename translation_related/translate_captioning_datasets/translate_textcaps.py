@@ -72,7 +72,7 @@ def translate_list_tokens(tokens_lists, tokenizer, model, device):
 
 # Function to translate the str field of npy file
 def translate_data(npy_data, tokenizer, model, device):
-    for i, caption in enumerate(npy_data[1:10]):
+    for i, caption in enumerate(npy_data[1:]):
         if i % 1000 == 0:
             print(i,"traducciones realizadas.")
 
