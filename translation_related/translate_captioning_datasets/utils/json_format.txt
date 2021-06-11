@@ -1,0 +1,12 @@
+"dataset": {
+            "name": "Dataset name",
+            "total_images": "int: Total number of images",
+            "total_captions": "int: Total number of captions",
+            "data": {
+	            "image_filename":
+    			{
+			        "en_captions": ["Caption 1", "Caption 2", "Caption 3", "Caption 4", "Caption 5"], 
+			        "es_captions": ["Caption 1", "Caption 2", "Caption 3", "Caption 4", "Caption 5"]
+		        }
+		     }
+           }

@@ -10,7 +10,7 @@ def vis_npy(path):
     npy_file = np.load(path, allow_pickle=True)
     print("File",path,"succesfully loaded.")
     for caption in npy_file[1:]:
-        print(caption['image_id'])
+        print(caption)
 
 if __name__ == "__main__":
    vis_npy(args.path)

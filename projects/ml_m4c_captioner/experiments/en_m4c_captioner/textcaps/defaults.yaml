@@ -8,7 +8,7 @@ optimizer:
 dataset_config:
   textcaps:
     zoo_requirements:
-    - textvqa.defaults
+    #- textvqa.defaults
     - textvqa.ocr_en
     - textcaps.defaults
     features:
