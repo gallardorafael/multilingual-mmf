@@ -15,6 +15,7 @@ boards/*
 checkpoint
 *.pth
 *.ckpt
+*.npy
 *_cache
 .cache
 data
