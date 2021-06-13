@@ -52,6 +52,8 @@ evaluation:
   - textcaps_bleu4
 
 training:
+    max_updates: 32000
+    seed: 1
     clip_norm_mode: all
     clip_gradients: true
     max_grad_l2_norm: 0.25
@@ -66,7 +68,10 @@ training:
     max_iterations: 12000
     batch_size: 128
     num_workers: 8
+    update_frequency: 4
     task_size_proportional_sampling: true
     early_stop:
       criteria: textcaps/textcaps_bleu4
       minimize: false
+    evaluation_interval: 4000
+    checkpoint_interval: 4000

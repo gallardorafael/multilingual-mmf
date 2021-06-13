@@ -2,8 +2,8 @@
 
 
 ## Instructions
-### Multilingual M4C Captioner (Spanish embeddings):
-Train on TextCaps dataset:
+### Multilingual M4C Captioner (ml_m4c_captioner):
+Train on TextCaps dataset (es_m4c_captioner):
 
 ``
 MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
@@ -11,9 +11,22 @@ MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
     config=projects/ml_m4c_captioner/experiments/es_m4c_captioner/textcaps/defaults.yaml \
     env.save_dir=./projects/ml_m4c_captioner/pretrained/es_m4c_captioner/defaults \
     run_type=train_val \
-    training.num_workers=0 \
+    training.num_workers=2 \
     training.batch_size=16
 ``
+
+Train on TextCaps dataset (en_m4c_captioner):
+
+``
+MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
+model=ml_m4c_captioner \
+config=projects/ml_m4c_captioner/experiments/en_m4c_captioner/textcaps/defaults.yaml \
+env.save_dir=./projects/ml_m4c_captioner/pretrained/en_m4c_captioner/defaults \
+run_type=train_val \
+training.num_workers=0 \
+training.batch_size=16
+``
+
 
 ### M4C Captioner (with FastText vectors):
 Train on TextCaps dataset:
