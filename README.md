@@ -12,7 +12,7 @@ MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
     env.save_dir=./projects/ml_m4c_captioner/pretrained/es_m4c_captioner/defaults \
     run_type=train_val \
     training.num_workers=0 \
-    training.batch_size=32
+    training.batch_size=16
 ``
 
 ### M4C Captioner (with FastText vectors):
