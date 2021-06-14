@@ -1,9 +1,9 @@
 config_version: 1.0
 training:
   trainer: mmf
-  seed: 5600390
+  seed: 1
   experiment_name: run
-  max_updates: 22000
+  max_updates: 32000
   max_epochs: null
   log_interval: 100
   logger_level: info
@@ -14,13 +14,13 @@ training:
   tensorboard: false
   batch_size: 4
   batch_size_per_device: null
-  update_frequency: 1
+  update_frequency: 4
   num_workers: 0
   fast_read: false
   dataset_size_proportional_sampling: true
   pin_memory: false
-  checkpoint_interval: 1000
-  evaluation_interval: 1000
+  checkpoint_interval: 4000
+  evaluation_interval: 4000
   clip_gradients: true
   clip_norm_mode: all
   early_stop:
@@ -137,7 +137,7 @@ dataset_config:
         type: bert_tokenizer
         params:
           tokenizer_config:
-            type: bert-base-uncased
+            type: bert-base-multilingual-uncased
             params:
               do_lower_case: true
           max_seq_length: 3
@@ -179,7 +179,7 @@ dataset_config:
     use_ocr_info: true
 datasets: textcaps
 model: ml_m4c_captioner
-config: projects/ml_m4c_captioner/experiments/es_m4c_captioner/textcaps/defaults.yaml
+config: projects/ml_m4c_captioner/experiments/en_m4c_captioner/textcaps/text_bert_multilingual.yaml
 run_type: train_val
 optimizer:
   allow_unused_parameters: false
@@ -195,7 +195,7 @@ env:
   dataset_zoo: configs/zoo/datasets.yaml
   model_zoo: configs/zoo/models.yaml
   data_dir: /home/yibbtstll/.cache/torch/mmf/data
-  save_dir: ./projects/ml_m4c_captioner/pretrained/es_m4c_captioner/defaults
+  save_dir: ./projects/ml_m4c_captioner/pretrained/en_m4c_captioner/text_bert_multilingual
   log_dir: ''
   report_dir: ''
   tensorboard_logdir: ''

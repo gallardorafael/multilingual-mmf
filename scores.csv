@@ -1,3 +1,3 @@
-Model, Language, BLEU-4, METEOR, ROUGE_L, SPICE, CIDEr
-M4C_Captioner (zoo), en, 23.4, 21.8, 46.0, 15.0, 89.1
-M4C_Captioner (local), 
+Model,Language, OCR Embedding, Text Embedding, BLEU-4, METEOR, ROUGE_L, SPICE, CIDEr
+M4C_Captioner (zoo), en, FastText wiki.en.bin, bert-base-uncased, 23.4, 21.8, 46.0, 15.0, 89.1
+M4C_Captioner (local), en, FastText wiki.en.bin, bert-base-uncased, 23.1, 22.3, 46.1, 15.7, 90.4
