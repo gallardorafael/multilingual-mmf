@@ -60,7 +60,7 @@ dataset_config:
       answer_processor:
         type: m4c_caption
         params:
-          vocab_file: textcaps/defaults/extras/vocabs/vocab_textcaps_threshold_10.txt
+          vocab_file: textcaps/defaults/extras/vocabs/textcaps_es_freq10.txt
           preprocessor:
             type: simple_word
             params: {}
@@ -70,14 +70,19 @@ dataset_config:
           max_length: 50
           max_copy_steps: 30
           num_answers: 1
-      #context_processor:
-      #  type: vocab
-      #  params:
-      #    max_length: 50
-      #    vocab:
-      #      type: intersected
-      #      embedding_name: glove.6B.300d
-      #      vocab_file: textcaps/defaults/extras/vocabs/vocab_textcaps_threshold_10.txt
+      text_processor:
+        type: bert_tokenizer
+        params:
+          tokenizer_config:
+            type: bert-base-multilingual-uncased
+            params:
+              do_lower_case: true
+          max_seq_length: 3
+      context_processor:
+        type: fasttext
+        params:
+          max_length: 50
+          model_file: cc.es.300.bin
 evaluation:
   metrics:
   - textcaps_bleu4

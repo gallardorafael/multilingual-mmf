@@ -53,6 +53,20 @@ MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
   training.batch_size=16
 ``
 
+Generate JSON on TextCaps validation (en_m4c_captioner):
+
+``
+MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_predict datasets=textcaps \
+  model=ml_m4c_captioner \
+  config=projects/ml_m4c_captioner/experiments/en_m4c_captioner/textcaps/text_bert_multilingual.yaml \
+  env.save_dir=./projects/ml_m4c_captioner/pretrained/en_m4c_captioner/text_bert_multilingual \
+  run_type=val \
+  checkpoint.resume=True \
+  checkpoint.resume_best=True \
+  training.num_workers=0 \
+  training.batch_size=16
+``
+
 ### Usage of ml_m4c_captioner with multilingual TextBert (with Spanish FastText vectors):
 Train on TextCaps dataset (es_m4c_captioner):
 
@@ -62,7 +76,7 @@ MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
     config=projects/ml_m4c_captioner/experiments/es_m4c_captioner/textcaps/defaults.yaml \
     env.save_dir=./projects/ml_m4c_captioner/pretrained/es_m4c_captioner/defaults \
     run_type=train_val \
-    training.num_workers=2 \
+    training.num_workers=0 \
     training.batch_size=16
 ``
 

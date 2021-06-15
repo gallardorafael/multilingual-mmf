@@ -12,7 +12,7 @@ training:
   should_not_log: false
   colored_logs: true
   tensorboard: false
-  batch_size: 4
+  batch_size: 16
   batch_size_per_device: null
   update_frequency: 4
   num_workers: 0
@@ -69,7 +69,7 @@ evaluation:
   metrics:
   - textcaps_bleu4
   use_cpu: false
-  predict: false
+  predict: 'true'
   predict_file_format: json
   reporter:
     type: file
@@ -99,7 +99,7 @@ model_config:
         hidden_size: 768
         query_key_size: 768
       params: {}
-    model_data_dir: /home/yibbtstll/.cache/torch/mmf/data
+    model_data_dir: /home/azureuser/.cache/torch/mmf/data
     losses:
     - type: m4c_decoding_bce_with_mask
     remove_unk_in_pred: true
@@ -107,7 +107,7 @@ model_config:
     model: ml_m4c_captioner
 dataset_config:
   textcaps:
-    data_dir: /home/yibbtstll/.cache/torch/mmf/data/datasets
+    data_dir: /home/azureuser/.cache/torch/mmf/data/datasets
     depth_first: false
     fast_read: false
     zoo_requirements:
@@ -180,7 +180,7 @@ dataset_config:
 datasets: textcaps
 model: ml_m4c_captioner
 config: projects/ml_m4c_captioner/experiments/en_m4c_captioner/textcaps/text_bert_multilingual.yaml
-run_type: train_val
+run_type: val
 optimizer:
   allow_unused_parameters: false
   enable_state_sharding: false
@@ -191,15 +191,15 @@ optimizer:
   type: Adam
 scheduler: {}
 env:
-  cache_dir: /home/yibbtstll/.cache/torch/mmf
+  cache_dir: /home/azureuser/.cache/torch/mmf
   dataset_zoo: configs/zoo/datasets.yaml
   model_zoo: configs/zoo/models.yaml
-  data_dir: /home/yibbtstll/.cache/torch/mmf/data
+  data_dir: /home/azureuser/.cache/torch/mmf/data
   save_dir: ./projects/ml_m4c_captioner/pretrained/en_m4c_captioner/text_bert_multilingual
   log_dir: ''
   report_dir: ''
   tensorboard_logdir: ''
-  user_dir: /home/yibbtstll/venvs/mmf2/multilingual-mmf/projects/ml_m4c_captioner
+  user_dir: /home/azureuser/multilingual-mmf/projects/ml_m4c_captioner
 distributed:
   init_method: null
   rank: 0
@@ -208,9 +208,9 @@ distributed:
   world_size: 1
   no_spawn: false
 checkpoint:
-  resume: false
+  resume: true
   resume_file: null
-  resume_best: false
+  resume_best: true
   resume_pretrained: false
   resume_zoo: null
   zoo_config_override: false
