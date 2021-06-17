@@ -33,6 +33,9 @@ Evaluate generated JSON predictions (val or test):
 
 ``
 export MMF_DATA_DIR=~/.cache/torch/mmf/data
+``
+
+``
 python projects/m4c_captioner/scripts/textcaps_eval.py \
 --set val \
 --annotation_file ${MMF_DATA_DIR}/datasets/textcaps/defaults/annotations/imdb_val.npy \
@@ -77,6 +80,28 @@ MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_run datasets=textcaps \
     run_type=train_val \
     training.num_workers=0 \
     training.batch_size=16
+``
+
+Generate JSON on TextCaps validation (es_m4c_captioner):
+
+``
+MMF_USER_DIR="projects/ml_m4c_captioner/" mmf_predict datasets=textcaps \
+  model=ml_m4c_captioner \
+  config=projects/ml_m4c_captioner/experiments/es_m4c_captioner/textcaps/defaults.yaml \
+  env.save_dir=./projects/ml_m4c_captioner/pretrained/es_m4c_captioner/defaults \
+  run_type=train_val \
+  run_type=val \
+  checkpoint.resume=True \
+  checkpoint.resume_best=True \
+  training.num_workers=0 \
+  training.batch_size=16
+``
+
+``
+python projects/m4c_captioner/scripts/textcaps_eval.py \
+--set val \
+--annotation_file ${MMF_DATA_DIR}/datasets/textcaps/defaults/annotations/es_imdb_val.npy \
+--pred_file PRED_FILE_PATH
 ``
 
 
