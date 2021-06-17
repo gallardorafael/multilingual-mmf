@@ -169,7 +169,6 @@ Evaluate generated JSON predictions (val or test):
 
 ``
 export MMF_DATA_DIR=~/.cache/torch/mmf/data
-
 python projects/m4c_captioner/scripts/textcaps_eval.py \
     --set val \
     --annotation_file ${MMF_DATA_DIR}/datasets/textcaps/defaults/annotations/imdb_val.npy \
