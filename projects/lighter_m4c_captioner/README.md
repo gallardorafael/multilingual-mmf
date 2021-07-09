@@ -2,13 +2,13 @@
 
 
 ## Instructions
-### Usage of lighter_m4c_captioner:
+### Usage of lighter_m4c_captioner (with GloVe context processor):
 Train on **TextCaps training set**:
 
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_run datasets=textcaps \
   model=lighter_m4c_captioner \
-  config=projects/lighter_m4c_captioner/experiments/defaults/textcaps/defaults.yaml \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/defaults.yaml \
   env.save_dir=./projects/lighter_m4c_captioner/pretrained/defaults \
   run_type=train_val
 ``
@@ -18,8 +18,8 @@ Generate prediction JSON files for the **TextCaps validation set**:
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
   model=lighter_m4c_captioner \
-  config=projects/lighter_m4c_captioner/experiments/defaults/textcaps/defaults.yaml \
-  env.save_dir=/projects/lighter_m4c_captioner/pretrained/defaults \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/context_glove.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/context_glove \
   run_type=val \
   checkpoint.resume=True \
   checkpoint.resume_best=True
@@ -30,8 +30,8 @@ Generate prediction JSON files for the **TextCaps test set**:
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
   model=lighter_m4c_captioner \
-  config=projects/lighter_m4c_captioner/experiments/defaults/textcaps/defaults.yaml \
-  env.save_dir=/projects/lighter_m4c_captioner/pretrained/defaults \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/context_glove.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/context_glove \
   run_type=test \
   checkpoint.resume=True \
   checkpoint.resume_best=True

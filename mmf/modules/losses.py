@@ -518,7 +518,7 @@ class WrongLoss(nn.Module):
         tar = target_score / tar_sum
 
         res = F.log_softmax(pred_score, dim=1)
-        loss = F.kl_div(res, tar, reduction="mean")
+        loss = F.kl_div(res, tar, reduction="batchmean")
         loss *= target_score.size(1)
         return loss
 

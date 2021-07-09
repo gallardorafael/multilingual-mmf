@@ -73,7 +73,7 @@ class lighter_M4C(BaseModel):
             )
         elif self.config.text_bert_init_from_bert_base_multilingual:
             self.text_bert = TextBert.from_pretrained(
-                "bert-base-multilingual-uncased", config=self.text_bert_config
+                "bert-base-multilingual-cased", config=self.text_bert_config
             )
             # Use a smaller learning rate on text bert when initializing
             # from BERT_BASE

@@ -1,0 +1,95 @@
+model_config:
+  lighter_m4c_captioner:
+    text_bert_init_from_bert_base: true
+    text_bert_init_from_bert_base_multilingual: false # Using bert-base-multilingual-cased
+    losses:
+    - type: multi
+      params:
+        - type: m4c_decoding_bce_with_mask
+          weight: 0.8
+          params: {}
+        - type: wrong
+          weight: 0.2
+          params: {}
+
+optimizer:
+  params:
+    eps: 1.0e-08
+    lr: 1e-4
+    weight_decay: 0
+  type: Adam
+
+dataset_config:
+  textcaps:
+    zoo_requirements:
+    #- textvqa.defaults
+    - textvqa.ocr_en
+    - textcaps.defaults
+    features:
+      train:
+      - textvqa/defaults/features/open_images/detectron.lmdb,textvqa/ocr_en/features/ocr_en_frcn_features.lmdb
+      val:
+      - textvqa/defaults/features/open_images/detectron.lmdb,textvqa/ocr_en/features/ocr_en_frcn_features.lmdb
+      test:
+      - textvqa/defaults/features/open_images/detectron.lmdb,textvqa/ocr_en/features/ocr_en_frcn_features.lmdb
+    annotations:
+      train:
+      - textcaps/defaults/annotations/imdb_train.npy
+      val:
+      - textcaps/defaults/annotations/imdb_val_filtered_by_image_id.npy  # only one sample per image_id
+      test:
+      - textcaps/defaults/annotations/imdb_test_filtered_by_image_id.npy
+    processors:
+      answer_processor:
+        type: m4c_caption
+        params:
+          vocab_file: textcaps/defaults/extras/vocabs/vocab_textcaps_threshold_10.txt
+          preprocessor:
+            type: simple_word
+            params: {}
+          context_preprocessor:
+            type: simple_word
+            params: {}
+          max_length: 50
+          max_copy_steps: 30
+          num_answers: 1
+      context_processor:
+        # Using GloVe vectors intead FastText, reducing up to 8 GB of RAM
+        type: glove
+        params:
+          preprocessor:
+            type: simple_word
+            params: {}
+          max_length: 50
+          vocab:
+            type: intersected
+            embedding_name: glove.6B.300d
+            vocab_file: textcaps/defaults/extras/vocabs/vocabulary_100k.txt
+evaluation:
+  metrics:
+  - textcaps_bleu4
+
+training:
+    max_updates: 24000
+    seed: 1
+    clip_norm_mode: all
+    clip_gradients: true
+    max_grad_l2_norm: 0.25
+    lr_scheduler: true
+    lr_steps:
+    - 10000
+    - 11000
+    lr_ratio: 0.1
+    use_warmup: true
+    warmup_factor: 0.2
+    warmup_iterations: 1000
+    max_iterations: 12000
+    batch_size: 16
+    num_workers: 0
+    update_frequency: 4
+    task_size_proportional_sampling: true
+    early_stop:
+      criteria: textcaps/textcaps_bleu4
+      minimize: false
+    evaluation_interval: 4000
+    checkpoint_interval: 4000
