@@ -384,11 +384,16 @@ class GloVeProcessor(VocabProcessor):
         self._already_downloaded = False
         self._args = args
         self._kwargs = kwargs
+        logger.info("Finished loading GloVe vectors")
 
     def __call__(self, item):
         if not self._already_downloaded:
             self.vocab = Vocab(*self._args, **self.config.vocab, **self._kwargs)
             self._already_downloaded = True
+
+        # Adding tokens and length to the outputs, similar to FastText vectors.
+        tokens = super().__call__(item)["tokens"]
+        tokens, length = super()._pad_tokens(tokens)
 
         indices = super().__call__(item)["text"]
         embeddings = torch.zeros(
@@ -398,7 +403,7 @@ class GloVeProcessor(VocabProcessor):
         for idx, index in enumerate(indices):
             embeddings[idx] = self.vocab.vectors[index]
 
-        return {"text": embeddings}
+        return {"text": embeddings, "tokens": tokens, "length": length}
 
 
 @registry.register_processor("fasttext")

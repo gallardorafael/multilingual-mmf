@@ -22,8 +22,8 @@ from transformers.modeling_bert import (
 logger = logging.getLogger(__name__)
 
 
-@registry.register_model("ml_m4c")
-class ml_M4C(BaseModel):
+@registry.register_model("lighter_m4c")
+class lighter_M4C(BaseModel):
     def __init__(self, config):
         super().__init__(config)
         self.mmt_config = BertConfig(**self.config.mmt)
@@ -31,7 +31,7 @@ class ml_M4C(BaseModel):
 
     @classmethod
     def config_path(cls):
-        return "configs/models/ml_m4c/defaults.yaml"
+        return "configs/models/lighter_m4c/defaults.yaml"
 
     def build(self):
         # modules requiring custom learning rates (usually for finetuning)
@@ -215,7 +215,7 @@ class ml_M4C(BaseModel):
         fwd_results["obj_mask"] = _get_mask(obj_nums, obj_mmt_in.size(1))
 
     def _forward_ocr_encoding(self, sample_list, fwd_results):
-        # 1) OCR FastText feature (300-dim)
+        # 1) OCR FastText feature (300-dim) -> Now GloVe 300-d vectors, check GloVeProcessor class in processors.
         ocr_fasttext = sample_list.context_feature_0
         ocr_fasttext = F.normalize(ocr_fasttext, dim=-1)
         assert ocr_fasttext.size(-1) == 300
