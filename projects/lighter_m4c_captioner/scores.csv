@@ -1,0 +1,7 @@
+TextCaps validation set,,,,,,,,,
+config, model, txt_encoding, ocr_context, ocr_features, BLEU-4, METEOR, ROUGE_L, SPICE, CIDEr
+NA, m4c, Bert-base-uncased,FastText,Rosetta,23.4,21.8,46,15,89.1
+NA,m4c,Bert-base-multilingual-uncased,FastText,Rosetta,22.4,22.2,46,15.6,88.7
+glove,lighter_m4c,Bert-base-uncased,GloVe 100k,Rosetta,,,,,
+defaults,lighter_m4c,Distilbert-base-cased,FastText,Rosetta,,,,,
+defaults_ml,lighter_m4c,Distilbert-base-multilingual-cased,FastText,Rosetta,,,,,

@@ -1,8 +1,3 @@
-model_config:
-  lighter_m4c_captioner:
-    text_bert_init_from_bert_base: true
-    text_bert_init_from_bert_base_multilingual: false # Using bert-base-multilingual-cased
-
 optimizer:
   params:
     eps: 1.0e-08

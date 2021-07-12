@@ -7,9 +7,9 @@ Train on **TextCaps training set**:
 
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_run datasets=textcaps \
-  model=lighter_m4c_captioner \
-  config=projects/lighter_m4c_captioner/experiments/textcaps/defaults.yaml \
-  env.save_dir=./projects/lighter_m4c_captioner/pretrained/defaults \
+  model=glove_m4c_captioner \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/glove.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/glove \
   run_type=train_val
 ``
 
@@ -18,8 +18,8 @@ Generate prediction JSON files for the **TextCaps validation set**:
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
   model=lighter_m4c_captioner \
-  config=projects/lighter_m4c_captioner/experiments/textcaps/context_glove.yaml \
-  env.save_dir=./projects/lighter_m4c_captioner/pretrained/context_glove \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/glove_context.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/glove_context \
   run_type=val \
   checkpoint.resume=True \
   checkpoint.resume_best=True
