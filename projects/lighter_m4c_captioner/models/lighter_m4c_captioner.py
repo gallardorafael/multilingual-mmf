@@ -2,6 +2,13 @@
 from mmf.common.registry import registry
 from omegaconf import OmegaConf
 from .lighter_m4c import lighter_M4C
+from torch import nn
+from transformers.modeling_bert import (
+    BertConfig,
+    BertEmbeddings,
+    BertEncoder,
+    BertPreTrainedModel,
+)
 
 
 @registry.register_model("lighter_m4c_captioner")
@@ -63,3 +70,27 @@ class M4CCaptioner(lighter_M4C):
             fwd_results["scores"][..., self.answer_processor.UNK_IDX] = -1e10
 
         return fwd_results
+
+class TextBert(BertPreTrainedModel):
+    def __init__(self, config):
+        super().__init__(config)
+
+        self.embeddings = BertEmbeddings(config)
+        self.encoder = BertEncoder(config)
+        self.init_weights()
+
+    def forward(self, txt_inds, txt_mask):
+        encoder_inputs = self.embeddings(txt_inds)
+        attention_mask = txt_mask
+
+        extended_attention_mask = attention_mask.unsqueeze(1).unsqueeze(2)
+        extended_attention_mask = (1.0 - extended_attention_mask) * -10000.0
+        assert not extended_attention_mask.requires_grad
+        head_mask = [None] * self.config.num_hidden_layers
+
+        encoder_outputs = self.encoder(
+            encoder_inputs, extended_attention_mask, head_mask=head_mask
+        )
+        seq_output = encoder_outputs[0]
+
+        return seq_output

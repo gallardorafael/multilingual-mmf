@@ -3,7 +3,7 @@ training:
   trainer: mmf
   seed: 1
   experiment_name: run
-  max_updates: 32000
+  max_updates: 24000
   max_epochs: null
   log_interval: 100
   logger_level: info
@@ -75,14 +75,13 @@ evaluation:
     type: file
     params: {}
 model_config:
-  ml_m4c_captioner:
+  glove_m4c_captioner:
     lr_scale_frcn: 0.1
     lr_scale_text_bert: 0.1
     lr_scale_mmt: 1.0
-    text_bert_init_from_bert_base: false
+    text_bert_init_from_bert_base: true
     text_bert:
       num_hidden_layers: 3
-      vocab_size: 105879
     obj:
       mmt_in_dim: 2048
       dropout_prob: 0.1
@@ -103,8 +102,7 @@ model_config:
     losses:
     - type: m4c_decoding_bce_with_mask
     remove_unk_in_pred: true
-    text_bert_init_from_bert_base_multilingual: true
-    model: ml_m4c_captioner
+    model: glove_m4c_captioner
 dataset_config:
   textcaps:
     data_dir: /home/azureuser/.cache/torch/mmf/data/datasets
@@ -137,7 +135,7 @@ dataset_config:
         type: bert_tokenizer
         params:
           tokenizer_config:
-            type: bert-base-multilingual-uncased
+            type: bert-base-uncased
             params:
               do_lower_case: true
           max_seq_length: 3
@@ -163,10 +161,17 @@ dataset_config:
         params:
           max_length: 50
       context_processor:
-        type: fasttext
+        type: glove
         params:
           max_length: 50
           model_file: wiki.en.bin
+          preprocessor:
+            type: simple_word
+            params: {}
+          vocab:
+            type: intersected
+            embedding_name: glove.6B.300d
+            vocab_file: textcaps/defaults/extras/vocabs/vocabulary_100k.txt
       ocr_token_processor:
         type: simple_word
         params: {}
@@ -177,10 +182,17 @@ dataset_config:
     return_features_info: true
     use_ocr: true
     use_ocr_info: true
+    images:
+      train:
+      - /home/yibbtstll/venvs/MMF/ImageCaptioningReadingComprehension/datasets/TextCaps/train
+      val:
+      - /home/yibbtstll/venvs/MMF/ImageCaptioningReadingComprehension/datasets/TextCaps/train
+      test:
+      - /home/yibbtstll/venvs/MMF/ImageCaptioningReadingComprehension/datasets/TextCaps/test
 datasets: textcaps
-model: ml_m4c_captioner
-config: projects/ml_m4c_captioner/experiments/en_m4c_captioner/textcaps/text_bert_multilingual.yaml
-run_type: val
+model: glove_m4c_captioner
+config: projects/lighter_m4c_captioner/experiments/textcaps/glove.yaml
+run_type: test
 optimizer:
   allow_unused_parameters: false
   enable_state_sharding: false
@@ -195,11 +207,11 @@ env:
   dataset_zoo: configs/zoo/datasets.yaml
   model_zoo: configs/zoo/models.yaml
   data_dir: /home/azureuser/.cache/torch/mmf/data
-  save_dir: ./projects/ml_m4c_captioner/pretrained/en_m4c_captioner/text_bert_multilingual
+  save_dir: ./projects/lighter_m4c_captioner/pretrained/glove
   log_dir: ''
   report_dir: ''
   tensorboard_logdir: ''
-  user_dir: /home/azureuser/multilingual-mmf/projects/ml_m4c_captioner
+  user_dir: /home/azureuser/multilingual-mmf/projects/lighter_m4c_captioner
 distributed:
   init_method: null
   rank: 0
