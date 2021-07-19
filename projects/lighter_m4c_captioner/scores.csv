@@ -5,12 +5,12 @@ config, model, txt_encoding, ocr_context, ocr_features, BLEU-4, METEOR, ROUGE_L,
 3,CNMT,,,,24.8,23,47.1,16.3,101.7
 4,SimpleEasy,,,,24.89,22.71,47.24,15.71,98.83
 glove,lighter_m4c,Bert-base-uncased,GloVe 100k,Rosetta,22.5,22.2,45.8,15.5,89.4
+NA,lighter_m4c,Distilbert-base-cased,FastText,Rosetta,22.3,22.3,45.8,15.6,89.4
 NA, m4c, Bert-base-uncased,FastText,Rosetta,23.4,21.8,46,15,89.1
-NA,m4c,Bert-base-multilingual-uncased,FastText,Rosetta,22.4,22.2,46,15.6,88.7
-lm4c,lighter_m4c,Distilbert-base-cased,FastText,Rosetta,22.3,22.3,45.8,15.6,89.4
-lm4c_glove,lighter_m4c,Distilbert-base-cased,GloVe 100k,Rosetta,,,,,
-,,,,,,,,,
-,,,,,,,,,
+lm4c,m4c,Bert-base-multilingual-uncased,FastText,Rosetta,22.4,22.2,46,15.6,88.7
+lm4c_glove,lighter_m4c,Distilbert-base-cased,GloVe 100k,Rosetta,22.3,22.1,45.6,15.6,88.4
+l_cnmt,CNMT,Distilbert-base-cased,FastText,Rosetta + CRAFT + ABC,,,,,
+l_cnmt_glove,CNMT,Distilbert-base-cased,GloVe 100k,Rosetta + CRAFT + ABC,,,,,
 ,,,,,,,,,
 ,,,,,,,,,
 ,,,,,,,,,
@@ -21,8 +21,8 @@ config, model, txt_encoding, ocr_context, ocr_features, BLEU-4, METEOR, ROUGE_L,
 2,LSTM-R,,,,22.93,21.32,46.11,13.81,100.82
 3,CNMT,,,,20.1,20.94,44.41,13.55,93.24
 4,SimpleEasy,,,,20.16,20.3,44.23,12.82,89.63
-NA,m4c,Bert-base-multilingual-uncased,FastText,Rosetta,18.94,20.03,43.55,12.99,81.31
-glove,lighter_m4c,Bert-base-uncased,GloVe 100k,Rosetta,18.84,20.22,43.41,13.05,81.24
-NA, m4c, Bert-base-uncased,FastText,Rosetta,18.86,19.77,43.23,12.77,80.9
-lm4c,lighter_m4c,Distilbert-base-cased,FastText,Rosetta,18.78,20.05,43.18,12.88,81.57
-lm4c_glove,lighter_m4c,Distilbert-base-cased,GloVe 100k,Rosetta,,,,,
+NA,lighter_m4c,Distilbert-base-cased,FastText,Rosetta,18.78,20.05,43.18,12.88,81.57
+glove,m4c,Bert-base-multilingual-uncased,FastText,Rosetta,18.94,20.03,43.55,12.99,81.31
+NA,lighter_m4c,Bert-base-uncased,GloVe 100k,Rosetta,18.84,20.22,43.41,13.05,81.24
+lm4c, m4c, Bert-base-uncased,FastText,Rosetta,18.86,19.77,43.23,12.77,80.9
+lm4c_glove,lighter_m4c,Distilbert-base-cased,GloVe 100k,Rosetta,18.77,19.98,43.07,12.92,80.59

@@ -69,13 +69,13 @@ evaluation:
   metrics:
   - textcaps_bleu4
   use_cpu: false
-  predict: 'true'
+  predict: false
   predict_file_format: json
   reporter:
     type: file
     params: {}
 model_config:
-  lighter_m4c_captioner:
+  cnmt:
     lr_scale_frcn: 0.1
     lr_scale_text_bert: 0.1
     lr_scale_mmt: 1.0
@@ -98,14 +98,20 @@ model_config:
         hidden_size: 768
         query_key_size: 768
       params: {}
-    model_data_dir: /home/azureuser/.cache/torch/mmf/data
+    model_data_dir: /home/yibbtstll/.cache/torch/mmf/data
     losses:
     - type: m4c_decoding_bce_with_mask
     remove_unk_in_pred: true
-    model: lighter_m4c_captioner
+    model: cnmt
+  lighter_m4c_captioner:
+    text_bert_init_from_bert_base: true
+    text_bert_init_from_bert_base_multilingual: false
+    text_bert:
+      num_hidden_layers: 3
+      vocab_size: 28996
 dataset_config:
   textcaps:
-    data_dir: /home/azureuser/.cache/torch/mmf/data/datasets
+    data_dir: /home/yibbtstll/.cache/torch/mmf/data/datasets
     depth_first: false
     fast_read: false
     zoo_requirements:
@@ -125,11 +131,11 @@ dataset_config:
       - textvqa/defaults/features/open_images/detectron.lmdb,textvqa/ocr_en/features/ocr_en_frcn_features.lmdb
     annotations:
       train:
-      - textcaps/defaults/annotations/imdb_train.npy
+      - textcaps/defaults/annotations_cnmt/imdb_train.npy
       val:
-      - textcaps/defaults/annotations/imdb_val_filtered_by_image_id.npy
+      - textcaps/defaults/annotations_cnmt/imdb_val_filtered_by_image_id.npy
       test:
-      - textcaps/defaults/annotations/imdb_test_filtered_by_image_id.npy
+      - textcaps/defaults/annotations_cnmt/imdb_test_filtered_by_image_id.npy
     processors:
       text_processor:
         type: bert_tokenizer
@@ -161,17 +167,10 @@ dataset_config:
         params:
           max_length: 50
       context_processor:
-        type: glove
+        type: fasttext
         params:
           max_length: 50
           model_file: wiki.en.bin
-          preprocessor:
-            type: simple_word
-            params: {}
-          vocab:
-            type: intersected
-            embedding_name: glove.6B.300d
-            vocab_file: textcaps/defaults/extras/vocabs/vocabulary_100k.txt
       ocr_token_processor:
         type: simple_word
         params: {}
@@ -182,10 +181,11 @@ dataset_config:
     return_features_info: true
     use_ocr: true
     use_ocr_info: true
+    use_cnmt_features: true
 datasets: textcaps
-model: lighter_m4c_captioner
-config: projects/lighter_m4c_captioner/experiments/textcaps/lm4c_glove.yaml
-run_type: test
+model: cnmt
+config: projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt.yaml
+run_type: train_val
 optimizer:
   allow_unused_parameters: false
   enable_state_sharding: false
@@ -196,15 +196,15 @@ optimizer:
   type: Adam
 scheduler: {}
 env:
-  cache_dir: /home/azureuser/.cache/torch/mmf
+  cache_dir: /home/yibbtstll/.cache/torch/mmf
   dataset_zoo: configs/zoo/datasets.yaml
   model_zoo: configs/zoo/models.yaml
-  data_dir: /home/azureuser/.cache/torch/mmf/data
-  save_dir: ./projects/lighter_m4c_captioner/pretrained/lm4c_glove
+  data_dir: /home/yibbtstll/.cache/torch/mmf/data
+  save_dir: ./projects/lighter_m4c_captioner/pretrained/l_cnmt
   log_dir: ''
   report_dir: ''
   tensorboard_logdir: ''
-  user_dir: /home/azureuser/multilingual-mmf/projects/lighter_m4c_captioner
+  user_dir: /home/yibbtstll/venvs/mmf2/multilingual-mmf/projects/lighter_m4c_captioner
 distributed:
   init_method: null
   rank: 0
@@ -213,9 +213,9 @@ distributed:
   world_size: 1
   no_spawn: false
 checkpoint:
-  resume: true
+  resume: false
   resume_file: null
-  resume_best: true
+  resume_best: false
   resume_pretrained: false
   resume_zoo: null
   zoo_config_override: false

@@ -208,13 +208,12 @@ class TextVQADataset(MMFDataset):
                 {"info": sample_info["ocr_info"]}
             )["bbox"].coordinates
 
-        """
         # CNMT: Adding OCR confidence information to sample
-        max_len = self.config.processors.answer_processor.params.max_length
-        sample.ocr_confidence = self.copy_processor(
-            {"blob": np.expand_dims(np.array(sample_info['ocr_confidence'], dtype="float32"), 1)}
-        )["blob"][:max_len]
-        """
+        if self.config.use_cnmt_features:
+            max_len = self.config.processors.answer_processor.params.max_length
+            sample.ocr_confidence = self.copy_processor(
+                {"blob": np.expand_dims(np.array(sample_info['ocr_confidence'], dtype="float32"), 1)}
+            )["blob"][:max_len]
 
         return sample
 
