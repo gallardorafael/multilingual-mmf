@@ -25,7 +25,7 @@ class CNMT(lighter_M4C):
 
         # CNMT repetition mask
         repetition_mask = None
-        coverage_ratio = -1e10
+        self.coverage_ratio = -1e10
 
     @classmethod
     def config_path(cls):
