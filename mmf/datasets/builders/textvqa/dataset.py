@@ -174,6 +174,7 @@ class TextVQADataset(MMFDataset):
         context = self.context_processor({"tokens": ocr_tokens})
         sample.context = context["text"]
         sample.ocr_tokens = context["tokens"]
+        sample._ocr_tokens = context["tokens"]
 
         sample.context_tokens = object_to_byte_tensor(context["tokens"])
         sample.context_feature_0 = context["text"]

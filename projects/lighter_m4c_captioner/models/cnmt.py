@@ -151,6 +151,11 @@ class CNMT(lighter_M4C):
         ocr_nums = sample_list.context_info_0.max_features
         fwd_results["ocr_mask"] = _get_mask(ocr_nums, ocr_mmt_in.size(1))
 
+        # multiple_list helps to mask out the same word from different sources (vocab and OCR, or different OCR)
+        num_samples = len(sample_list._ocr_tokens)
+        self.ocr_to_vocab = torch.ones((num_samples, 50), device=torch.device("cuda"), dtype=torch.int64) * self.answer_processor.UNK_IDX
+        self.multiple_list = [[[] for i in range(6786)] for j in range(num_samples)]
+
     def _forward_output(self, sample_list, fwd_results):
         super()._forward_output(sample_list, fwd_results)
 
