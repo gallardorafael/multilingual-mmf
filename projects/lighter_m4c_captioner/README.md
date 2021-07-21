@@ -131,7 +131,7 @@ Generate prediction JSON files for the **TextCaps validation set**:
 
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
-  model=lighter_m4c_captioner \
+  model=cnmt \
   config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt.yaml \
   env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt \
   run_type=val \
@@ -143,7 +143,7 @@ Generate prediction JSON files for the **TextCaps test set**:
 
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
-  model=lighter_m4c_captioner \
+  model=cnmt \
   config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt.yaml \
   env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt \
   run_type=test \
@@ -166,7 +166,7 @@ Generate prediction JSON files for the **TextCaps validation set**:
 
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
-  model=lighter_m4c_captioner \
+  model=cnmt \
   config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt_glove.yaml \
   env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt_glove \
   run_type=val \
@@ -178,7 +178,7 @@ Generate prediction JSON files for the **TextCaps test set**:
 
 ``
 MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
-  model=lighter_m4c_captioner \
+  model=cnmt \
   config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt_glove.yaml \
   env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt_glove \
   run_type=test \
