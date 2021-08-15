@@ -1,10 +1,7 @@
 model_config:
-  lighter_m4c_captioner:
-    text_bert_init_from_distilbert_base: true
-    text_bert_init_from_bert_base: false # Using bert-base-multilingual-cased
-    text_bert:
-      num_hidden_layers: 3
-      vocab_size: 28996
+  cnmt:
+    text_bert_init_from_distilbert_base: false
+    text_bert_init_from_bert_base: true
 
 optimizer:
   params:
@@ -48,6 +45,18 @@ dataset_config:
           max_length: 50
           max_copy_steps: 30
           num_answers: 1
+      context_processor:
+        # Using GloVe vectors instead FastText, reducing up to 8 GB of RAM
+        type: glove
+        params:
+          preprocessor:
+            type: simple_word
+            params: {}
+          max_length: 50
+          vocab:
+            type: intersected
+            embedding_name: glove.6B.300d
+            vocab_file: textcaps/defaults/extras/vocabs/vocabulary_100k.txt
 
 evaluation:
   metrics:

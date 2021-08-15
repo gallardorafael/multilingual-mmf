@@ -36,7 +36,7 @@ class CNMT(lighter_M4C):
 
         self.text_bert_config = BertConfig(**self.config.text_bert)
 
-        if self.config.text_bert_init_from_bert_base:
+        if self.config.text_bert_init_from_distilbert_base:
             self.text_bert = TextBert.from_pretrained(
                 "distilbert-base-cased", config=self.text_bert_config
             )
@@ -45,9 +45,9 @@ class CNMT(lighter_M4C):
             self.finetune_modules.append(
                 {"module": self.text_bert, "lr_scale": self.config.lr_scale_text_bert}
             )
-        elif self.config.text_bert_init_from_bert_base_multilingual:
+        elif self.config.text_bert_init_from_bert_base:
             self.text_bert = TextBert.from_pretrained(
-                "distilbert-base-multilingual-cased", config=self.text_bert_config
+                "bert-base-uncased", config=self.text_bert_config
             )
             # Use a smaller learning rate on text bert when initializing
             # from BERT_BASE

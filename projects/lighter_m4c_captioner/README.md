@@ -151,6 +151,41 @@ MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
   checkpoint.resume_best=True
 ``
 
+### Usage of Lighter CNMT (with GloVe context processor and BERT base):
+Train on **TextCaps training set**:
+
+``
+MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_run datasets=textcaps \
+  model=cnmt \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt_bert_glove.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt_bert_glove \
+  run_type=train_val
+``
+
+Generate prediction JSON files for the **TextCaps validation set**:
+
+``
+MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
+  model=cnmt \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt_bert_glove.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt_bert_glove \
+  run_type=val \
+  checkpoint.resume=True \
+  checkpoint.resume_best=True
+``
+
+Generate prediction JSON files for the **TextCaps test set**:
+
+``
+MMF_USER_DIR="projects/lighter_m4c_captioner/" mmf_predict datasets=textcaps \
+  model=cnmt \
+  config=projects/lighter_m4c_captioner/experiments/textcaps/l_cnmt_bert_glove.yaml \
+  env.save_dir=./projects/lighter_m4c_captioner/pretrained/l_cnmt_bert_glove \
+  run_type=test \
+  checkpoint.resume=True \
+  checkpoint.resume_best=True
+``
+
 ### Usage of Lighter CNMT (with GloVe context processor and DistilBERT base):
 Train on **TextCaps training set**:
 
